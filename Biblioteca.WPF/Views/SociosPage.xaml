@@ -1,0 +1,109 @@
+<Page x:Class="Biblioteca.WPF.Views.SociosPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Title="Socios"
+      ScrollViewer.CanContentScroll="False">
+    <Grid Margin="32,20,32,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Socios" Style="{StaticResource PageTitle}" Margin="0,0,0,20" />
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="360" />
+            </Grid.ColumnDefinitions>
+
+            <ui:Card Grid.Column="0" Padding="16" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ui:TextBox x:Name="txtSearch" Grid.Column="0" Icon="{ui:SymbolIcon Search24}"
+                                    PlaceholderText="Buscar por nombre o DNI…"
+                                    ClearButtonEnabled="True" TextChanged="txtSearch_TextChanged" />
+                        <ui:Button x:Name="btnRefresh" Grid.Column="1" Margin="8,0,0,0" Padding="10"
+                                   Icon="{ui:SymbolIcon ArrowClockwise24}" ToolTip="Actualizar"
+                                   Click="btnRefresh_Click" />
+                    </Grid>
+
+                    <DataGrid x:Name="dgSocios" Grid.Row="1" Style="{StaticResource ModernGrid}"
+                              SelectionChanged="dgSocios_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="DNI" Binding="{Binding DNI}" Width="120"
+                                                ElementStyle="{StaticResource TextCell}" />
+                            <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="2*"
+                                                ElementStyle="{StaticResource TextCell}" />
+                            <DataGridTextColumn Header="Correo" Binding="{Binding Email}" Width="2*"
+                                                ElementStyle="{StaticResource TextCell}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel x:Name="emptyState" Grid.Row="1" Style="{StaticResource EmptyState}">
+                        <ui:SymbolIcon Symbol="PeopleTeam24" FontSize="48" HorizontalAlignment="Center"
+                                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                        <TextBlock x:Name="txtEmpty" Text="No hay socios." Margin="0,10,0,0"
+                                   HorizontalAlignment="Center" Style="{StaticResource HintText}" />
+                    </StackPanel>
+
+                    <ui:ProgressRing x:Name="busyRing" Grid.Row="1" IsIndeterminate="True"
+                                     Width="48" Height="48" Visibility="Collapsed" />
+                </Grid>
+            </ui:Card>
+
+            <ui:Card Grid.Column="2" Padding="20" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Border Style="{StaticResource IconBadge}" Width="36" Height="36" CornerRadius="8"
+                                Margin="0,0,12,0" Background="{StaticResource InfoSoftBrush}">
+                            <ui:SymbolIcon x:Name="iconForm" Symbol="PersonAdd24" FontSize="18"
+                                           Foreground="{StaticResource InfoBrush}" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock x:Name="txtFormTitle" Text="Nuevo socio" Style="{StaticResource SectionTitle}" />
+                            <TextBlock x:Name="txtFormHint" Text="Complete los datos y pulse Guardar."
+                                       Style="{StaticResource HintText}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <TextBlock Text="DNI" Style="{StaticResource FieldLabel}" />
+                    <ui:TextBox x:Name="txtDni" PlaceholderText="8 dígitos" MaxLength="8" />
+
+                    <TextBlock Text="Nombre" Style="{StaticResource FieldLabel}" />
+                    <ui:TextBox x:Name="txtNombre" PlaceholderText="Ej. Ana Torres" MaxLength="120" />
+
+                    <TextBlock Text="Correo (opcional)" Style="{StaticResource FieldLabel}" />
+                    <ui:TextBox x:Name="txtEmail" PlaceholderText="nombre@mail.com" MaxLength="120"
+                                Icon="{ui:SymbolIcon Mail24}" />
+
+                    <Grid Margin="0,24,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ui:Button x:Name="btnNew" Grid.Column="0" Content="Nuevo" HorizontalAlignment="Stretch"
+                                   Icon="{ui:SymbolIcon Add24}" Click="btnNew_Click" />
+                        <ui:Button x:Name="btnSave" Grid.Column="2" Content="Guardar" HorizontalAlignment="Stretch"
+                                   Appearance="Primary" Icon="{ui:SymbolIcon Save24}" Click="btnSave_Click" />
+                    </Grid>
+                    <ui:Button x:Name="btnDelete" Content="Dar de baja" Margin="0,8,0,0"
+                               HorizontalAlignment="Stretch" Appearance="Danger" Icon="{ui:SymbolIcon Delete24}"
+                               Click="btnDelete_Click" />
+                </StackPanel>
+            </ui:Card>
+        </Grid>
+    </Grid>
+</Page>
